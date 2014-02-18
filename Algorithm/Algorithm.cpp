@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "Quick_Sort.h"
 #include "Fibonacci.h"
+#include "Binary_Search.h"
 #include <iostream>
 using namespace std;
 
@@ -23,6 +24,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout<<"iterative fibo is "<<fibonacci.iterative_process(10)<<endl;
 	cout<<"recursive fibo is "<<fibonacci.recursive_process(10)<<endl;
 
+	Binary_Search binary_search;
+	int test1 = binary_search.process_find(test,0,sizeof(test) / sizeof(int) -1,5);
+	cout<<"binary_search can find "<<test1<<endl;
  	system("pause");
 	return 0;
 }
