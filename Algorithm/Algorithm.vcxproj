@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClInclude Include="Binary_Search.h" />
     <ClInclude Include="Fibonacci.h" />
+    <ClInclude Include="Find_Kth.h" />
     <ClInclude Include="Quick_Sort.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -89,6 +90,7 @@
     <ClCompile Include="Algorithm.cpp" />
     <ClCompile Include="Binary_Search.cpp" />
     <ClCompile Include="Fibonacci.cpp" />
+    <ClCompile Include="Find_Kth.cpp" />
     <ClCompile Include="Quick_Sort.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

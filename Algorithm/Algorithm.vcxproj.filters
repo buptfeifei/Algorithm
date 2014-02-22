@@ -33,6 +33,9 @@
     <ClInclude Include="Binary_Search.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Find_Kth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Binary_Search.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Find_Kth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
