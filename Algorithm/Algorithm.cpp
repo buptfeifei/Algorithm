@@ -6,7 +6,7 @@
 #include "Fibonacci.h"
 #include "Binary_Search.h"
 #include "Find_Kth.h"
-
+#include "Reverse_List.h"
 #include <iostream>
 using namespace std;
 
@@ -15,6 +15,24 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	int test[] = {1,3,4,9,10,12,17,5,8};
 	
+	Reverse_List* head = NULL;
+	head = Reverse_List::gen_list(test,sizeof(test) / sizeof(int));
+	cout<<"before reverse"<<endl;
+	if(head != NULL)
+		head->print_list(head);
+
+	head = head->iterative_process(head);
+	cout<<"after iterative reverse"<<endl;
+	if(head != NULL)
+		head->print_list(head);
+
+	Reverse_List* newhead = NULL; 
+	head = head->recursive_process(head,newhead);
+	head->set_next(NULL);
+	cout<<"after recursive reverse"<<endl;
+	if(newhead != NULL)
+		newhead->print_list(newhead);
+
 	Find_Kth find_kth;
 	int k = find_kth.recursive_process(test,0,sizeof(test) / sizeof(int) -1,5);
 	cout<<"find_kth can find "<<k<<endl;
