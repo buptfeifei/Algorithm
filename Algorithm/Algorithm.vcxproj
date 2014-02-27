@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Binary_Search.h" />
+    <ClInclude Include="Binary_Tree.h" />
     <ClInclude Include="Fibonacci.h" />
     <ClInclude Include="Find_Kth.h" />
     <ClInclude Include="Quick_Sort.h" />
@@ -90,6 +91,7 @@
   <ItemGroup>
     <ClCompile Include="Algorithm.cpp" />
     <ClCompile Include="Binary_Search.cpp" />
+    <ClCompile Include="Binary_Tree.cpp" />
     <ClCompile Include="Fibonacci.cpp" />
     <ClCompile Include="Find_Kth.cpp" />
     <ClCompile Include="Quick_Sort.cpp" />

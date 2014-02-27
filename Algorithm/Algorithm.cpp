@@ -7,6 +7,7 @@
 #include "Binary_Search.h"
 #include "Find_Kth.h"
 #include "Reverse_List.h"
+#include "Binary_Tree.h"
 #include <iostream>
 using namespace std;
 
@@ -14,7 +15,20 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	
 	int test[] = {1,3,4,9,10,12,17,5,8};
-	
+
+	Binary_Tree* root = Binary_Tree::gen_tree(test,sizeof(test) / sizeof(int));
+	root->find_parent(root);
+	root->set_parent(NULL);
+	root->print_tree(root);
+
+	Binary_Tree* next = root->find_next_node(root);
+	cout<<"root next is "<<next->get_element()<<endl;
+	Binary_Tree* prev = root->find_prev_node(next);
+	cout<<"next prev is "<<prev->get_element()<<endl;
+
+	root->delete_tree(root);
+	root = NULL;
+
 	Reverse_List* head = NULL;
 	head = Reverse_List::gen_list(test,sizeof(test) / sizeof(int));
 	cout<<"before reverse"<<endl;
@@ -32,6 +46,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout<<"after recursive reverse"<<endl;
 	if(newhead != NULL)
 		newhead->print_list(newhead);
+	newhead->delete_list(newhead);
+	newhead = NULL;
 
 	Find_Kth find_kth;
 	int k = find_kth.recursive_process(test,0,sizeof(test) / sizeof(int) -1,5);
