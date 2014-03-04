@@ -8,6 +8,7 @@
 #include "Find_Kth.h"
 #include "Reverse_List.h"
 #include "Binary_Tree.h"
+#include "MyString.h"
 #include <iostream>
 using namespace std;
 
@@ -16,7 +17,23 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	int test[] = {1,3,4,9,10,12,17,5,8};
 
-	Binary_Tree* root = Binary_Tree::gen_tree(test,sizeof(test) / sizeof(int));
+	char s1[] = "ababababca";
+	char s2[] = "bacbababababcacbab";
+
+	MyString string1(s1,sizeof(s1) / sizeof(char) - 1);
+	MyString string2(s2,sizeof(s2) / sizeof(char) - 1);
+	int* finds = string2.strstr(string1);
+	if(finds!=NULL)
+	{
+		cout<<" find string in"<<endl;
+		int count = 0;
+		while(finds[count] > -1)
+			cout<<finds[count++];
+		delete[] finds;
+	}
+	cout<<endl;
+
+ 	Binary_Tree* root = Binary_Tree::gen_tree(test,sizeof(test) / sizeof(int));
 	root->find_parent(root);
 	root->set_parent(NULL);
 	root->print_tree(root);

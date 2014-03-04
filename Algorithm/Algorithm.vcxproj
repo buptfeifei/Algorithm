@@ -83,6 +83,7 @@
     <ClInclude Include="Binary_Tree.h" />
     <ClInclude Include="Fibonacci.h" />
     <ClInclude Include="Find_Kth.h" />
+    <ClInclude Include="MyString.h" />
     <ClInclude Include="Quick_Sort.h" />
     <ClInclude Include="Reverse_List.h" />
     <ClInclude Include="stdafx.h" />
@@ -94,6 +95,7 @@
     <ClCompile Include="Binary_Tree.cpp" />
     <ClCompile Include="Fibonacci.cpp" />
     <ClCompile Include="Find_Kth.cpp" />
+    <ClCompile Include="MyString.cpp" />
     <ClCompile Include="Quick_Sort.cpp" />
     <ClCompile Include="Reverse_List.cpp" />
     <ClCompile Include="stdafx.cpp">
