@@ -19,7 +19,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	char s1[] = "ababababca";
 	char s2[] = "bacbababababcacbab";
-
+    char s3[] = "shang peng fei";
 	MyString string1(s1,sizeof(s1) / sizeof(char) - 1);
 	MyString string2(s2,sizeof(s2) / sizeof(char) - 1);
 	int* finds = string2.strstr(string1);
@@ -29,6 +29,28 @@ int _tmain(int argc, _TCHAR* argv[])
 		int count = 0;
 		while(finds[count] > -1)
 			cout<<finds[count++];
+		delete[] finds;
+	}
+	cout<<endl;
+
+	cout<<sizeof(s3)<<endl;
+	MyString string3(s3,sizeof(s3) / sizeof(char));
+	
+	finds = string3.strtok(' ');
+	if(finds!=NULL)
+	{
+		cout<<" split string in"<<endl;
+		int count = 0;
+		int beg = 0;
+		int end = 0;
+		while(finds[count] > -1)
+		{
+			beg = finds[count++];
+			end = finds[count++];
+			while(beg < end)
+				cout<<string3[beg++];
+			cout<<endl;
+		}
 		delete[] finds;
 	}
 	cout<<endl;

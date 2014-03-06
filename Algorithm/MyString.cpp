@@ -38,21 +38,30 @@ MyString& MyString::operator = (const MyString& s)
 		this->sting = new char[s.size];
 		if(this->sting != NULL)
 		{
-			this->sting = strcpy(s.sting,this->sting);
+			this->sting = strcpy(s.sting,this->sting,s.size);
 			this->size = s.size;
 			return *this;
 		}
 	}
 	return *this;
 }
-char* MyString::strcpy(const char* str,char* dst)
+char& MyString::operator[](const int i)
+{
+	if(this->sting!=NULL && i>=0 && i<size)
+	{
+		return this->sting[i];
+	}
+}
+char* MyString::strcpy(const char* str,char* dst,int i)
 {
 	if(str != NULL && dst != NULL)
 	{
 		const char* tmp1 = str;
 		char* tmp2 = dst;
-		while(*tmp1 != '\0')
+		for(int count = 0;count < i;count++)
+		{
 			*tmp2++ = *tmp1++;
+		}
 		return dst;
 	}
 	return NULL;
@@ -64,7 +73,7 @@ bool MyString::init(const MyString& s)
 		this->sting = new char[s.size];
 		if(this->sting!=NULL)
 		{
-			this->sting = strcpy(s.sting,this->sting);
+			this->sting = strcpy(s.sting,this->sting,s.size);
 			this->size = s.size;
 			return true;
 		}
@@ -78,7 +87,7 @@ bool MyString::init(char* s,int i)
 		this->sting = new char[i];
 		if(this->sting!=NULL)
 		{
-			this->sting = strcpy(s,this->sting);
+			this->sting = strcpy(s,this->sting,i);
 			this->size = i;
 			return true;
 		}
@@ -106,56 +115,95 @@ int* MyString::calculate_shift(const MyString& s)
 }
 int* MyString::strstr(const MyString& s)
 {
-	int* shift = NULL;
-	int shift_size = 0;
-	int string_long = 0;
-	char* string_l = NULL;
-	char* string_s = NULL;
-	if(this->size > s.size)
+	if(this->sting!=NULL && s.sting != NULL)
 	{
-		shift = calculate_shift(s);
-		shift_size = s.size;
-		string_long = this->size;
-		string_l = this->sting;
-		string_s = s.sting;
-	}
-	else
-	{
-		shift = calculate_shift(*this);
-		shift_size = this->size;
-		string_long = s.size;
-		string_l = s.sting;
-		string_s = this->sting;
-	}
-	for(int i = 0 ; i < shift_size;i++)
-	{
-		cout<<shift[i]<<endl;
-	}
-	int q = - 1;
-	int* find_result = new int[string_long / shift_size];
-	memset(find_result,-1,sizeof(int) * (string_long / shift_size));
-	int count = 0;
-	for(int j = 0;j < string_long;j++)
-	{
-		while(q > -1 && string_s[q+1]!=string_l[j])
-			q = shift[q];
-		if(string_s[q+1] == string_l[j]) q = q + 1;
-		if(q == shift_size -1 )
+		int* shift = NULL;
+		int shift_size = 0;
+		int string_long = 0;
+		char* string_l = NULL;
+		char* string_s = NULL;
+		if(this->size > s.size)
 		{
-			cout<<"find string with shift "<<j-q<<endl;
-			find_result[count++] = j - q;
-			q = shift[q];
-		}	
-	}
-	delete[] shift;
+			shift = calculate_shift(s);
+			shift_size = s.size;
+			string_long = this->size;
+			string_l = this->sting;
+			string_s = s.sting;
+		}
+		else
+		{
+			shift = calculate_shift(*this);
+			shift_size = this->size;
+			string_long = s.size;
+			string_l = s.sting;
+			string_s = this->sting;
+		}
+		for(int i = 0 ; i < shift_size;i++)
+		{
+			cout<<shift[i]<<endl;
+		}
+		int q = - 1;
+		int* find_result = new int[string_long / shift_size];
+		memset(find_result,-1,sizeof(int) * (string_long / shift_size));
+		int count = 0;
+		for(int j = 0;j < string_long;j++)
+		{
+			while(q > -1 && string_s[q+1]!=string_l[j])
+				q = shift[q];
+			if(string_s[q+1] == string_l[j]) q = q + 1;
+			if(q == shift_size -1 )
+			{
+				cout<<"find string with shift "<<j-q<<endl;
+				find_result[count++] = j - q;
+				q = shift[q];
+			}	
+		}
+		delete[] shift;
 
-	if(count > 0)
-		return find_result;
-	else
-	{
-		delete[] find_result;
-		return NULL;
+		if(count > 0)
+			return find_result;
+		else
+		{
+			delete[] find_result;
+			return NULL;
+		}
 	}
 	
+	return NULL;
 	
+}
+int* MyString::strtok(const char token )
+{
+	if(this->sting!=NULL)
+	{
+		int* string_pos = new int[this->size];
+		memset(string_pos,-1,sizeof(int) * this->size);
+		const char* p = this->sting;
+		const char* q = this->sting;
+		int count = 0;
+		while (*p!='\0')
+		{
+			if(*p != token)
+			{
+				string_pos[count++] = p - this->sting;
+				while(*q != token && *q !='\0')
+					q++;
+				string_pos[count++] = q - this->sting;
+				if(*q == '\0')
+					return string_pos;
+				else
+				{
+					p = q + 1;
+					q = q + 1;
+				}
+			}
+			else
+			{
+				p++;
+				q++;
+			}
+		}
+		return string_pos;
+	}
+	return NULL;
 }
