@@ -15,7 +15,7 @@ using namespace std;
 int _tmain(int argc, _TCHAR* argv[])
 {
 	
-	int test[] = {1,3,4,9,10,12,17,5,8};
+	int test[] = {9,5,12,3,8,10,17,1,4};
 
 	char s1[] = "ababababca";
 	char s2[] = "bacbababababcacbab";
@@ -36,6 +36,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout<<sizeof(s3)<<endl;
 	MyString string3(s3,sizeof(s3) / sizeof(char));
 	
+	string3.display();
+	string3.shift_n(2);
+	string3.display();
+
 	finds = string3.strtok(' ');
 	if(finds!=NULL)
 	{
@@ -65,6 +69,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	Binary_Tree* prev = root->find_prev_node(next);
 	cout<<"next prev is "<<prev->get_element()<<endl;
 
+	int LCA = root->find_LCA(root,1,8);
+	cout <<" 1 and 8 LCA is "<<LCA<<endl;
+
+	Binary_Tree* LCA_pointer = NULL;
+	LCA_pointer = root->find_LCA(root,root->find_pointer(root,1),root->find_pointer(root,8));
+	if(LCA_pointer != NULL)
+		cout<<"1 and 8 LCA pointer is "<<LCA_pointer->get_element()<<endl;
 	root->delete_tree(root);
 	root = NULL;
 

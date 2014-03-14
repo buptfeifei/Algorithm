@@ -3,12 +3,18 @@
 #include <iostream>
 using namespace std;
 
+#define STACK_DEFAULT_SIZE 20
+
 array_queue::array_queue(int s)
 			:size(s),
 			array(NULL),
 			beg(0),
 			end(0)
 {
+	if(init_queue() != true)
+	{
+		cout<<"init queue error"<<endl;
+	}
 }
 
 array_queue::~array_queue()
@@ -27,16 +33,14 @@ array_queue::array_queue()
 }
 bool array_queue::init_queue(void)
 {
-	if(array != NULL)
-	{
-		delete[] array;
-		array = NULL;
-	}
 	array = new Binary_Tree* [size];
 	if(array == NULL)
 		return false;
 	else
+	{
+		memset(array,0,sizeof(int) * size);
 		return true;
+	}
 
 }
 bool array_queue::enqueue(Binary_Tree* elem)
@@ -67,7 +71,64 @@ Binary_Tree* array_queue::dequeue(void)
 		return tmp;
 	}
 }
+array_stack::array_stack(void)
+{
 
+}
+array_stack::array_stack(int s)
+	:size(s),array(NULL),top(0)
+{
+	if(init_stack() != true)
+	{
+		cout<<"init stack error"<<endl;
+	}
+}
+bool array_stack::init_stack(void)
+{
+	array = new Binary_Tree* [size];
+	if(array == NULL)
+		return false;
+	else
+	{
+		memset(array,0,sizeof(int) * size);
+		return true;
+	}
+}
+Binary_Tree* array_stack::pop(void)
+{
+	if(top > 0)
+	{
+		return array[--top];
+	}
+	else
+	{
+		cout<<"stack pop error"<<endl;
+		return NULL;
+	}
+}
+bool array_stack::push(Binary_Tree* elem)
+{
+	if(elem != NULL && top < size)
+	{
+		array[top++] = elem;
+		return true;
+	}
+	else
+	{
+		cout<<"stack push error"<<endl;
+		return false;
+	}
+}
+array_stack::~array_stack(void)
+{
+	if(array!=NULL)
+	{
+		delete[] array;
+		array = NULL;
+		size = 0;
+		top = 0;
+	}
+}
 Binary_Tree::Binary_Tree(void)
 {
 }
@@ -95,7 +156,7 @@ Binary_Tree* Binary_Tree::gen_tree(int* array,int size)
 		int i = 0;
 		Binary_Tree* root = new Binary_Tree(array[i++]);
 		array_queue myqueue(size / 2 + 1);
-		if(myqueue.init_queue() == true && myqueue.enqueue(root) == true)
+		if(myqueue.enqueue(root) == true)
 		{
 			while(i<size)
 			{
@@ -210,3 +271,98 @@ Binary_Tree* Binary_Tree::find_prev_node(Binary_Tree* node)
 	}
 	return NULL;
 }
+int Binary_Tree::find_LCA(Binary_Tree* root,const int a,const int b)   //this function has a bug , if a is b child , it will not work!
+{
+	if(root!=NULL)
+	{
+		if((a < root->element && b > root->element) || (b < root->element && a > root->element) )
+			return root->element;
+		else
+		{
+			if(a < root->element && b < root->element)
+				return find_LCA(root->lchild,a,b);
+			else
+				return find_LCA(root->rchild,a,b);
+		}
+	}
+	cout<<"int find_LCA root is NULL"<<endl;
+	return 0;
+}
+Binary_Tree* Binary_Tree::find_LCA(Binary_Tree* root,Binary_Tree* a,Binary_Tree* b)
+{
+	if(root != NULL && a!= NULL && b!= NULL)
+	{
+		array_stack stack(STACK_DEFAULT_SIZE);
+		
+		Binary_Tree* tmp = root;
+		Binary_Tree* next = NULL;
+		
+		while(tmp != NULL || stack.get_size() != 0)
+		{
+			if(tmp != NULL) 
+			{
+				stack.push(tmp);
+				tmp = tmp ->lchild;
+			}
+			else
+			{
+				tmp = stack.pop();
+				if(tmp == a || tmp == b)
+				{
+					if(tmp == a )
+						next = b;
+					else
+						next = a;
+
+					bool find_flag = false;
+					while(stack.get_size() != 0)
+					{
+						tmp = stack.pop();
+						find_node(tmp->rchild,next,find_flag);
+						if(find_flag) return tmp;
+					}
+					return NULL;
+				}
+				else
+				{
+					tmp = tmp->rchild;
+				}
+			}
+			
+			
+		}
+		return NULL;
+	}
+	return NULL;
+}
+ void Binary_Tree::find_node(Binary_Tree* root,Binary_Tree* node,bool& flag)
+{
+	if(root != NULL && node != NULL && flag != true)
+	{
+		find_node(root->lchild,node,flag);
+		if(root == node)
+		{
+			flag = true;
+		}
+		find_node(root->rchild,node,flag);
+	}
+}
+ Binary_Tree* Binary_Tree::find_pointer(Binary_Tree* root,const int value)
+ {
+	 if(root != NULL)
+	 {
+		 if(value == root->element)
+			 return root;
+		 else
+		 {
+			 if(value < root->element)
+			 {
+				 return find_pointer(root->lchild,value);
+			 }
+			 else
+			 {
+				 return find_pointer(root->rchild,value);
+			 }
+		 }
+	 }
+ }

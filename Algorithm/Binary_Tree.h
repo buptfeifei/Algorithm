@@ -4,16 +4,31 @@ class array_queue
 {
 public:
 	array_queue(int s);
-	~array_queue();
-	bool init_queue(void);
+	~array_queue(void);
 	bool enqueue(Binary_Tree* elem);
 	Binary_Tree* dequeue(void);
 private:
-	array_queue();
+	array_queue(void);
+	bool init_queue(void);
 	Binary_Tree** array;
 	int size;
 	int beg;
 	int end;
+};
+class array_stack
+{
+public:
+	array_stack(int s);
+	~array_stack(void);
+	Binary_Tree* pop(void);
+	bool push(Binary_Tree* elem);
+	int get_size(void){return top;};
+private:
+	array_stack(void);
+	bool init_stack(void);
+	Binary_Tree** array;
+	int size;
+	int top;
 };
 class Binary_Tree
 {
@@ -28,11 +43,16 @@ public:
 	void delete_tree(Binary_Tree* root);
 	inline int get_element(void) {return element;};
 	inline void set_parent(Binary_Tree* node) { parent = node;};
+	int find_LCA(Binary_Tree* root,const int a,const int b);
+	Binary_Tree* find_LCA(Binary_Tree* root,Binary_Tree* a,Binary_Tree* b);
+	Binary_Tree* find_pointer(Binary_Tree* root,const int value);
 private:
+	void find_node(Binary_Tree* root,Binary_Tree* node,bool& flag);
 	Binary_Tree(void);
 	int element;
 	Binary_Tree* lchild;
 	Binary_Tree* rchild;
 	Binary_Tree* parent;
 };
+
 

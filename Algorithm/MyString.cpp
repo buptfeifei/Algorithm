@@ -4,7 +4,7 @@
 using namespace std;
 
 MyString::MyString(void)
-	:sting(NULL),size(0)
+	:string(NULL),size(0)
 {
 }
 MyString::MyString(char* s,int i)
@@ -23,10 +23,10 @@ MyString::MyString(const MyString& s)
 }
 MyString::~MyString(void)
 {
-	if(this->sting != NULL)
+	if(this->string != NULL)
 	{
-		delete[] this->sting;
-		this->sting = NULL;
+		delete[] this->string;
+		this->string = NULL;
 		size = 0;
 	}
 }
@@ -34,11 +34,11 @@ MyString& MyString::operator = (const MyString& s)
 {
 	if(this != &s)
 	{
-		delete[] this->sting;
-		this->sting = new char[s.size];
-		if(this->sting != NULL)
+		delete[] this->string;
+		this->string = new char[s.size];
+		if(this->string != NULL)
 		{
-			this->sting = strcpy(s.sting,this->sting,s.size);
+			this->string = strcpy(s.string,this->string,s.size);
 			this->size = s.size;
 			return *this;
 		}
@@ -47,9 +47,9 @@ MyString& MyString::operator = (const MyString& s)
 }
 char& MyString::operator[](const int i)
 {
-	if(this->sting!=NULL && i>=0 && i<size)
+	if(this->string!=NULL && i>=0 && i<size)
 	{
-		return this->sting[i];
+		return this->string[i];
 	}
 }
 char* MyString::strcpy(const char* str,char* dst,int i)
@@ -68,12 +68,12 @@ char* MyString::strcpy(const char* str,char* dst,int i)
 }
 bool MyString::init(const MyString& s)
 {
-	if(s.sting != NULL)
+	if(s.string != NULL)
 	{
-		this->sting = new char[s.size];
-		if(this->sting!=NULL)
+		this->string = new char[s.size];
+		if(this->string!=NULL)
 		{
-			this->sting = strcpy(s.sting,this->sting,s.size);
+			this->string = strcpy(s.string,this->string,s.size);
 			this->size = s.size;
 			return true;
 		}
@@ -84,10 +84,10 @@ bool MyString::init(char* s,int i)
 {
 	if(s != NULL)
 	{
-		this->sting = new char[i];
-		if(this->sting!=NULL)
+		this->string = new char[i];
+		if(this->string!=NULL)
 		{
-			this->sting = strcpy(s,this->sting,i);
+			this->string = strcpy(s,this->string,i);
 			this->size = i;
 			return true;
 		}
@@ -104,8 +104,8 @@ int* MyString::calculate_shift(const MyString& s)
 		int k = -1;
 		for(int i=1;i < s.size;i++)
 		{
-			while( k > -1 && s.sting[i] != s.sting[k+1]) k = array_shift[k];
-			if(s.sting[i] == s.sting[k+1])
+			while( k > -1 && s.string[i] != s.string[k+1]) k = array_shift[k];
+			if(s.string[i] == s.string[k+1])
 				k = k + 1;
 			array_shift[i] = k;
 		}
@@ -115,7 +115,7 @@ int* MyString::calculate_shift(const MyString& s)
 }
 int* MyString::strstr(const MyString& s)
 {
-	if(this->sting!=NULL && s.sting != NULL)
+	if(this->string!=NULL && s.string != NULL)
 	{
 		int* shift = NULL;
 		int shift_size = 0;
@@ -127,16 +127,16 @@ int* MyString::strstr(const MyString& s)
 			shift = calculate_shift(s);
 			shift_size = s.size;
 			string_long = this->size;
-			string_l = this->sting;
-			string_s = s.sting;
+			string_l = this->string;
+			string_s = s.string;
 		}
 		else
 		{
 			shift = calculate_shift(*this);
 			shift_size = this->size;
 			string_long = s.size;
-			string_l = s.sting;
-			string_s = this->sting;
+			string_l = s.string;
+			string_s = this->string;
 		}
 		for(int i = 0 ; i < shift_size;i++)
 		{
@@ -174,21 +174,21 @@ int* MyString::strstr(const MyString& s)
 }
 int* MyString::strtok(const char token )
 {
-	if(this->sting!=NULL)
+	if(this->string!=NULL)
 	{
 		int* string_pos = new int[this->size];
 		memset(string_pos,-1,sizeof(int) * this->size);
-		const char* p = this->sting;
-		const char* q = this->sting;
+		const char* p = this->string;
+		const char* q = this->string;
 		int count = 0;
 		while (*p!='\0')
 		{
 			if(*p != token)
 			{
-				string_pos[count++] = p - this->sting;
+				string_pos[count++] = p - this->string;
 				while(*q != token && *q !='\0')
 					q++;
-				string_pos[count++] = q - this->sting;
+				string_pos[count++] = q - this->string;
 				if(*q == '\0')
 					return string_pos;
 				else
@@ -206,4 +206,35 @@ int* MyString::strtok(const char token )
 		return string_pos;
 	}
 	return NULL;
+}
+bool MyString::shift_n(int n)
+{
+	if(this->string != NULL && this->size > 0 && n > 0 && n < size)
+	{
+		reverse(this->string,this->string + n - 1);
+		reverse(this->string + n ,this->string + size - 2); // without '\0' at the end of string
+		reverse(this->string,this->string + size - 2);
+		return true;
+	}
+	return false;
+}
+void MyString::reverse(char* beg,char* end)
+{
+	while(beg < end)
+	{
+		char tmp = *beg;
+		*beg = *end;
+		*end = tmp;
+		beg++;
+		end--;
+	}
+}
+void MyString::display(void)
+{
+	if(this->string != NULL && this->size > 0)
+	{
+		for(int i = 0;i < size - 1;i++)
+			cout<<this->string[i];
+		cout<<endl;
+	}
 }
