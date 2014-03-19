@@ -23,6 +23,7 @@ public:
 	Binary_Tree* pop(void);
 	bool push(Binary_Tree* elem);
 	int get_size(void){return top;};
+	void print_stack(void);
 private:
 	array_stack(void);
 	bool init_stack(void);
@@ -46,8 +47,12 @@ public:
 	int find_LCA(Binary_Tree* root,const int a,const int b);
 	Binary_Tree* find_LCA(Binary_Tree* root,Binary_Tree* a,Binary_Tree* b);
 	Binary_Tree* find_pointer(Binary_Tree* root,const int value);
+	void find_path_sum(Binary_Tree* root, int sum);
+	int find_max_node(Binary_Tree* root);
 private:
 	void find_node(Binary_Tree* root,Binary_Tree* node,bool& flag);
+	void find_path_sum(Binary_Tree* root, int sum, array_stack& mystack);
+	int find_max_node(Binary_Tree* root,int& max);
 	Binary_Tree(void);
 	int element;
 	Binary_Tree* lchild;

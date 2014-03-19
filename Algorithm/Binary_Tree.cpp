@@ -119,6 +119,17 @@ bool array_stack::push(Binary_Tree* elem)
 		return false;
 	}
 }
+void array_stack::print_stack(void)
+{
+	if (array != NULL && top > 0)
+	{
+		for (int i = 0; i < top; i++)
+		{
+			cout << array[i]->get_element() << " ";
+		}
+		cout << endl;
+	}
+}
 array_stack::~array_stack(void)
 {
 	if(array!=NULL)
@@ -365,4 +376,60 @@ Binary_Tree* Binary_Tree::find_LCA(Binary_Tree* root,Binary_Tree* a,Binary_Tree*
 			 }
 		 }
 	 }
+ }
+ void Binary_Tree::find_path_sum(Binary_Tree* root, int sum)
+ {
+	 if (root != NULL)
+	 {
+		 array_stack mystack(STACK_DEFAULT_SIZE);
+		 find_path_sum(root, sum, mystack);
+	 }
+ }
+ void Binary_Tree::find_path_sum(Binary_Tree* root, int sum, array_stack& mystack)
+ {
+	 if (root != NULL)
+	 {
+		 mystack.push(root);
+		 sum = sum - root->element;
+		 if (sum == 0)
+		 {
+			 mystack.print_stack();
+		 }
+		 else
+		 {
+			 find_path_sum(root->lchild, sum, mystack);
+			 find_path_sum(root->rchild, sum, mystack);
+		 }
+		 sum = sum + root->element;
+		 mystack.pop();
+	 }
+ }
+ int Binary_Tree::find_max_node(Binary_Tree* root)
+ {
+	 if (root != NULL)
+	 {
+		 int max = 0;
+		 find_max_node(root, max);
+		 return max;
+	 }
+	 else
+		 return 0;
+ }
+ int Binary_Tree::find_max_node(Binary_Tree* root, int& max)
+ {
+	 if (root != NULL)
+	 {
+		 int lhigh = find_max_node(root->lchild, max);
+		 int rhigh = find_max_node(root->rchild, max);
+
+		 if (lhigh + rhigh + 1> max)
+			 max = lhigh + rhigh + 1;
+
+		 if (lhigh > rhigh)
+			 return lhigh + 1;
+		 else
+			 return rhigh + 1;
+	 }
+	 else
+		 return 0;
  }

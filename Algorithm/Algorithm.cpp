@@ -76,6 +76,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	LCA_pointer = root->find_LCA(root,root->find_pointer(root,1),root->find_pointer(root,8));
 	if(LCA_pointer != NULL)
 		cout<<"1 and 8 LCA pointer is "<<LCA_pointer->get_element()<<endl;
+
+	root->find_path_sum(root, 21);
+
+	int max = root->find_max_node(root);
+	cout << "max is " << max << endl;
+
 	root->delete_tree(root);
 	root = NULL;
 
